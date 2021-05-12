@@ -1,7 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Weather} from '../../../entities/weather';
 import {ApiService} from '../../../services/api-service/api.service';
+import {storeService} from '../../../services/store-service';
+import {StoreDataTypeEnum} from '../../../store/storeDataTypeEnum';
 
 @Component({
   selector: 'app-weather-form-inputs',
@@ -12,7 +14,6 @@ export class WeatherFormInputsComponent implements OnInit {
   weatherForm: FormGroup;
   cities = [];
   weather: Weather;
-  showResults: boolean;
 
   @Output() newWeatherEvent = new EventEmitter<Weather>();
 
@@ -44,12 +45,18 @@ export class WeatherFormInputsComponent implements OnInit {
 
   showWeather(): void {
     this.apiService.getWeatherByCityAndUnit(this.getCitiesNames()[this.weatherForm.value.cityForm], this.weatherForm.value.unitForm)
-      .subscribe((data) => {
-        this.weather = new Weather(this.getCitiesNames()[this.weatherForm.value.cityForm],
-          data.main.temp, data.weather[0].description, data.weather[0].icon);
-        this.showResults = true;
-        this.addNewWeather(this.weather);
-      });
+      .subscribe(
+        data => {
+          this.weather = new Weather(this.getCitiesNames()[this.weatherForm.value.cityForm], this.weatherForm.value.unitForm,
+            data.main.temp, data.weather[0].description, data.weather[0].icon);
+        },
+        () => {
+          this.weather = storeService.select(StoreDataTypeEnum.WEATHERS).find((weather: Weather) =>
+            weather.city === this.getCitiesNames()[this.weatherForm.value.cityForm] && this.weatherForm.value.unitForm === weather.unit);
+        },
+        () => {
+          this.addNewWeather(this.weather);
+        });
   }
 
   addNewWeather(value: Weather): void {

@@ -11,9 +11,9 @@
     </div>
 
     <button mdbBtn type="submit" rounded="true" class="md-form" color="link"
-            [disabled]="weatherForm.invalid || showResults" mdbWavesEffect>
+            [disabled]="weatherForm.invalid || weather" mdbWavesEffect>
       <mdb-icon size="lg" fas icon="plus"></mdb-icon>
     </button>
   </form>
-  <app-weather-results [setWeather]="weather" *ngIf="showResults"></app-weather-results>
+  <app-weather-results [setWeather]="weather" *ngIf="weather"></app-weather-results>
 </div>
