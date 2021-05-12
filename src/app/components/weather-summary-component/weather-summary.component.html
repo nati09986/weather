@@ -1,12 +1,14 @@
 <div class="container">
   <h1>Weather in:</h1>
-  <div *ngFor="let weather of weathers; let index = index;" class="row ml-5 col-10">
-    <h3>
-      {{index + 1 + '.' + weather.city + ' ' + weather.temp}}
-    </h3>
-    <mdb-icon far icon="circle" size="sm"></mdb-icon>
-    <h3>
-      {{'; ' + weather.description}}
-    </h3>
+  <div class="weather-summary">
+    <div *ngFor="let weather of weathers; let index = index;" class="row ml-5 col-10">
+      <h3>
+        {{index + 1 + '.' + weather.city + ' ' + weather.temp}}
+      </h3>
+      <mdb-icon far icon="circle" size="sm"></mdb-icon>
+      <h3>
+        {{'; ' + weather.description}}
+      </h3>
+    </div>
   </div>
 </div>
