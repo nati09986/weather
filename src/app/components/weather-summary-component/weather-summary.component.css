@@ -1,0 +1,5 @@
+.weather-summary {
+  min-height: 26vh;
+  max-height: 26vh;
+  overflow: auto;
+}

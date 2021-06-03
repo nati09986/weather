@@ -1,0 +1,19 @@
+<div class="container">
+  <form [formGroup]="weatherForm" class="row" (ngSubmit)="onSubmit()">
+    <div class="md-form col-md-5">
+      <mdb-select mdbValidate formControlName="cityForm" placeholder="Select City"
+                  [options]="cities"></mdb-select>
+    </div>
+
+    <div class="md-form col-md-5">
+      <input mdbInput mdbValidate formControlName="unitForm" type="text" class="form-control"
+             [placeholder]="'Units(standard, metric, etc)'">
+    </div>
+
+    <button mdbBtn type="submit" rounded="true" class="md-form" color="link"
+            [disabled]="weatherForm.invalid || weather" mdbWavesEffect>
+      <mdb-icon size="lg" fas icon="plus"></mdb-icon>
+    </button>
+  </form>
+  <app-weather-results [setWeather]="weather" *ngIf="weather"></app-weather-results>
+</div>
